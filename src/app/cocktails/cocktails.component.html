@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-center" *ngIf="!isLoading && isError">
+    <p>{{errorMessage}}</p>
+  </div>
+  <div class="row py-3">
+    <div class="col-3">
+      <label>Select Group By Filter:-</label>
+      <div class="dropdown d-inline-block">
+        <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          {{selectedCocktailsGroup}}
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li *ngFor='let group of groupList | keyvalue' (click)='changeGroup(group)'><a
+              class="dropdown-item">{{group.key}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-3">
+      <label>Select {{selectedCocktailsGroup}}:-</label>
+      <div class="dropdown d-inline-block">
+        <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          {{selectedCategory}}
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li *ngFor='let category of groupListResponse' (click)='changeCategory(category)'><a
+              class="dropdown-item">{{category}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-3">
+      <input [(ngModel)]="searchByName" placeholder="Search by name">
+    </div>
+    <div class="col-3">
+      <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          {{sortType}}
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li (click)="changeSort(' no-change')"><a class="dropdown-item">Sort by Name</a></li>
+          <li (click)="changeSort(' asc')"><a class="dropdown-item">Ascending Order</a></li>
+          <li (click)="changeSort(' desc')"><a class="dropdown-item">Descending Order</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row py-2" *ngIf="!isLoading && !isError">
+    <div class="col-3"
+      *ngFor="let miniDrinkDetail of miniDrinksDetail | searchFilter: searchByName | sortFilter: sortTypeValue">
+      <div class="card">
+        <img src={{miniDrinkDetail.strDrinkThumb}} class="card-img-top" />
+        <div class="card-body">
+          <h5 class="card-title">{{miniDrinkDetail.strDrink}}</h5>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center" *ngIf="isLoading">
+    <div class="spinner-border" style="width: 5rem; height: 5rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
